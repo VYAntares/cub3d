@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:28:38 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/04 13:45:56 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/06 15:56:18 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	parse_textures(char *trimmed, char **texture_path)
 {
 	*texture_path = ft_substr(trimmed, 2, (ft_strlen(trimmed) - 2));
-	if (!*texture_path || ft_strlen(*texture_path) == 0 || *texture_path[0] != '.')
+	if (!*texture_path || ft_strlen(*texture_path) == 0)
 	{
 		free(*texture_path);
 		*texture_path = NULL;
@@ -39,9 +39,9 @@ int	parse_color(char *trimmed, t_color *color)
     color->r = ft_atoi(rgb[0]);
     color->g = ft_atoi(rgb[1]);
     color->b = ft_atoi(rgb[2]);
-    if (color->r < 0 || color->r > 255 || 
-        color->g < 0 || color->g > 255 || 
-        color->b < 0 || color->b > 255)
+    if (color->r < 0 || color->r > 255
+		|| color->g < 0 || color->g > 255
+		|| color->b < 0 || color->b > 255)
         return (ERROR_COLOR);
     return (0);
 }
@@ -143,8 +143,14 @@ void	parser(char *filename)
 			error_exit(ERR_COLOR);
 		if (result == ERROR_PARSE)
 			error_exit(ERR_PARSE);
-        // if (result == MAP_FOUND)
-		// 	parse_map(filename);
+        if (result == MAP_FOUND)
+		{
+			while(line)
+			{
+				map_line[map_count] = ft_strdup(line);
+				map_count++
+			}
+		}
 		free(line);
 		line = get_next_line(fd);
     }

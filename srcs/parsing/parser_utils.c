@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:47:50 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/03 14:51:17 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/06 15:51:21 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*trim_line(char *line)
 	j = 0;
     while (line[i])
 	{
-		if (line[i] == ' ' || line[i] == '\t')
+		if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
 			i++;
 		else
         {
