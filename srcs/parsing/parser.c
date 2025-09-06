@@ -124,6 +124,34 @@ static void	print_setup(t_setup *setup)
 	printf("\n=== END SETUP ===\n");
 }
 
+void write_map(t_setup *setup, char *line, int fd)
+{
+	int map_count;
+	int map_capacity;
+	char **map;
+
+	map_capacity = 100;
+	map_count = 0;
+	map = ft_malloc(sizeof(char *) * map_capacity);
+	map[map_count] = ft_strdup(line);
+	map_count++;
+	free(line);
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (map_count >= map_capacity)
+		{
+			map_capacity *= 2;
+			map = ft_realloc(map, sizeof(char *) * map_capacity - 1);
+		}
+		map[map_count] = ft_strdup(line);
+		map_count++;
+		free(line);
+		line = get_next_line(fd);
+	}
+	map_line[map_count] == NULL;
+}
+
 void	parser(char *filename)
 {
 	int		fd;
@@ -132,6 +160,8 @@ void	parser(char *filename)
 	t_setup	setup;
 	
 	fd = validate_file(filename);
+	if (fd == -1)
+		return ;
 	line = get_next_line(fd);
 	init_setup(&setup);
 	while (line)
@@ -145,14 +175,13 @@ void	parser(char *filename)
 			error_exit(ERR_PARSE);
         if (result == MAP_FOUND)
 		{
-			while(line)
-			{
-				map_line[map_count] = ft_strdup(line);
-				map_count++
-			}
+			write_map(setup, line, fd);
+			break ;
 		}
 		free(line);
 		line = get_next_line(fd);
     }
+	close(fd);
+	parse_map()
 	print_setup(&setup);
 }
