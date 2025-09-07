@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:28:38 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/06 15:56:18 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/07 21:18:27 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,34 @@ int	parse_textures(char *trimmed, char **texture_path)
 
 int	parse_color(char *trimmed, t_color *color)
 {
-    char **rgb;
-    char *color_str;
-    
-    color_str = ft_substr(trimmed, 1, (ft_strlen(trimmed) - 1));
-    if (!color_str)
-        return (ERROR_COLOR);
-    rgb = ft_split(color_str, ',');
-    free(color_str);
-    if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
-        return (ERROR_COLOR);
-    color->r = ft_atoi(rgb[0]);
-    color->g = ft_atoi(rgb[1]);
-    color->b = ft_atoi(rgb[2]);
-    if (color->r < 0 || color->r > 255
+	char **rgb;
+	char *color_str;
+	
+	color_str = ft_substr(trimmed, 1, (ft_strlen(trimmed) - 1));
+	if (!color_str)
+		return (ERROR_COLOR);
+	rgb = ft_split(color_str, ',');
+	free(color_str);
+	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+		return (ERROR_COLOR);
+	color->r = ft_atoi(rgb[0]);
+	color->g = ft_atoi(rgb[1]);
+	color->b = ft_atoi(rgb[2]);
+	if (color->r < 0 || color->r > 255
 		|| color->g < 0 || color->g > 255
 		|| color->b < 0 || color->b > 255)
-        return (ERROR_COLOR);
-    return (0);
+		return (ERROR_COLOR);
+	return (0);
 }
 
 int	parse_config(char *line, t_setup *setup)
 {
-    char	*trimmed;
+	char	*trimmed;
 
-    trimmed = trim_line(line);
+	trimmed = trim_line(line);
 	if (ft_strlen(trimmed) == 0)
 		return (0);
-    if (ft_strncmp(trimmed, "NO", 2) == 0)
+	if (ft_strncmp(trimmed, "NO", 2) == 0)
 		return (parse_textures(trimmed, &setup->textures.north_texture));
 	else if (ft_strncmp(trimmed, "WE", 2) == 0)
 		return (parse_textures(trimmed, &setup->textures.west_texture));
@@ -116,7 +116,7 @@ static void	print_setup(t_setup *setup)
 		i = 0;
 		while (i < setup->map_height && setup->map[i])
 		{
-			printf("  [%2d] %s\n", i, setup->map[i]);
+			printf("  [%2d] [strlen : %2zu] %s\n", i, ft_strlen(setup->map[i]), setup->map[i]);
 			i++;
 		}
 	}
@@ -124,16 +124,99 @@ static void	print_setup(t_setup *setup)
 	printf("\n=== END SETUP ===\n");
 }
 
+void	*ft_realloc_array(char **old_array, int old_count, size_t new_size)
+{
+	char	**new_array;
+	int		i;
+
+	new_array = malloc(new_size);
+	if (!new_array)
+		return (NULL);
+	i = 0;
+	while (i < old_count)
+	{
+		new_array[i] = old_array[i];
+		i++;
+	}
+	free(old_array);
+	return (new_array);
+}
+
+void	find_max_width(t_setup *setup)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = 0;
+	while (i < setup->map_height)
+	{
+		len = ft_strlen(setup->map[i]);
+		if (len > setup->map_width)
+			setup->map_width = len;
+		i++;
+	}
+}
+
+void	normalize_map(t_setup *setup)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*new_line;
+
+	i = 0;
+	j = 0;
+	find_max_width(setup);
+	while (i < setup->map_height)
+	{
+		len = ft_strlen(setup->map[i]);
+		if (len < setup->map_width)
+		{
+			new_line = malloc(setup->map_width + 1);
+			if (!new_line)
+				error_exit(ERR_MALLOC);
+			j = 0;
+			while (j < len)
+			{
+				new_line[j] = setup->map[i][j];
+				j++;
+			}
+			while (j < setup->map_width)
+			{
+				new_line[j] = ' ';
+				j++;
+			}
+			new_line[j] = '\0';
+			free(setup->map[i]);
+			setup->map[i] = new_line;
+		}
+		i++;
+	}
+}
+
+void	substr_map_line_wo_bn(t_setup *setup, char *line, int map_count)
+{
+	int	len;
+	
+	len = ft_strlen(line);
+	if (len > 0 && line[len - 1] == '\n')
+		setup->map[map_count] = ft_substr(line, 0, len - 1);
+	else
+		setup->map[map_count] = ft_strdup(line);
+	if (!setup->map[map_count])
+		error_exit(ERR_MALLOC);
+}
+
 void write_map(t_setup *setup, char *line, int fd)
 {
 	int map_count;
 	int map_capacity;
-	char **map;
 
 	map_capacity = 100;
 	map_count = 0;
-	map = ft_malloc(sizeof(char *) * map_capacity);
-	map[map_count] = ft_strdup(line);
+	setup->map = malloc(sizeof(char *) * map_capacity);
+	substr_map_line_wo_bn(setup, line, map_count);
 	map_count++;
 	free(line);
 	line = get_next_line(fd);
@@ -142,17 +225,22 @@ void write_map(t_setup *setup, char *line, int fd)
 		if (map_count >= map_capacity)
 		{
 			map_capacity *= 2;
-			map = ft_realloc(map, sizeof(char *) * map_capacity - 1);
+			setup->map = ft_realloc_array(setup->map, map_count, 
+							sizeof(char *) * map_capacity);
+			if (!setup->map)
+				error_exit(ERR_MALLOC);
 		}
-		map[map_count] = ft_strdup(line);
+		substr_map_line_wo_bn(setup, line, map_count);
 		map_count++;
 		free(line);
 		line = get_next_line(fd);
 	}
-	map_line[map_count] == NULL;
+	setup->map[map_count] = NULL;
+	setup->map_height = map_count;
+	normalize_map(setup);
 }
 
-void	parser(char *filename)
+void parser(char *filename)
 {
 	int		fd;
 	char	*line;
@@ -165,23 +253,23 @@ void	parser(char *filename)
 	line = get_next_line(fd);
 	init_setup(&setup);
 	while (line)
-    {
-        result = parse_config(line, &setup);
-        if (result == ERROR_TEXTURE)
-            error_exit(ERR_TEXTURE);
+	{
+		result = parse_config(line, &setup);
+		if (result == ERROR_TEXTURE)
+			error_exit(ERR_TEXTURE);
 		if (result == ERROR_COLOR)
 			error_exit(ERR_COLOR);
 		if (result == ERROR_PARSE)
 			error_exit(ERR_PARSE);
-        if (result == MAP_FOUND)
+		if (result == MAP_FOUND)
 		{
-			write_map(setup, line, fd);
+			write_map(&setup, line, fd);
 			break ;
 		}
 		free(line);
 		line = get_next_line(fd);
-    }
+	}
 	close(fd);
-	parse_map()
 	print_setup(&setup);
+	validate_map(&setup);
 }
