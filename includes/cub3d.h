@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:14:37 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/03 16:23:22 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/08 00:49:26 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,35 @@
 # define ERR_COLOR "Error\nInvalid color format\n"
 # define ERR_MLX "Error\nMLX initialization failed\n"
 
+// Main functions
 int		main(int ac, char **av);
+
+// Error handling
 void	error_exit(char *msg);
+
+// File validation
 int		validate_file(char *filename);
-void	parser(char *filename);
+
+// Parsing functions
+int		parser(char *filename);
 int		parse_config(char *line, t_setup *setup);
+int		parse_textures(char *trimmed, char **texture_path);
+int		parse_color(char *trimmed, t_color *color);
+
+// Utility functions
 char	*trim_line(char *line);
 void	init_setup(t_setup *setup);
+
+// Map processing functions
+int		write_map(t_setup *setup, char *line, int fd);
+int		substr_map_line_wo_bn(t_setup *setup, char *line, int map_count);
+int		normalize_map(t_setup *setup);
+void	find_max_width(t_setup *setup);
+
+// Array manipulation
+char	**ft_realloc_array(char **old_array, int old_count, size_t new_size);
+
+// Validation functions
+int		validate_config_complete(t_setup *setup);
 
 #endif
