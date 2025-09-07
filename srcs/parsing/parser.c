@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:28:38 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/07 21:18:27 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/07 22:46:01 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ int	parse_textures(char *trimmed, char **texture_path)
 
 int	parse_color(char *trimmed, t_color *color)
 {
-	char **rgb;
-	char *color_str;
+	char 	**rgb;
+	char 	*color_str;
+	int		i;
 	
 	color_str = ft_substr(trimmed, 1, (ft_strlen(trimmed) - 1));
 	if (!color_str)
@@ -35,10 +36,23 @@ int	parse_color(char *trimmed, t_color *color)
 	rgb = ft_split(color_str, ',');
 	free(color_str);
 	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+	{
+		if (rgb)
+		{
+			i = 0;
+			while (rgb[i])
+				free(rgb[i++]);
+			free(rgb);
+		}
 		return (ERROR_COLOR);
+	}
 	color->r = ft_atoi(rgb[0]);
 	color->g = ft_atoi(rgb[1]);
 	color->b = ft_atoi(rgb[2]);
+	i = 0;
+	while (rgb[i])
+		free(rgb[i++]);
+	free(rgb);
 	if (color->r < 0 || color->r > 255
 		|| color->g < 0 || color->g > 255
 		|| color->b < 0 || color->b > 255)
@@ -158,6 +172,19 @@ void	find_max_width(t_setup *setup)
 	}
 }
 
+void	validate_config_complete(t_setup *setup)
+{
+	if (!setup->textures.north_texture
+		|| !setup->textures.south_texture
+		|| !setup->textures.west_texture
+		|| !setup->textures.east_texture)
+		error_exit(ERR_TEXTURE);
+	if (setup->floor.r == -1
+		|| setup->floor.g == -1
+		|| setup->floor.b == -1)
+		error_exit(ERR_COLOR);
+}
+
 void	normalize_map(t_setup *setup)
 {
 	int		i;
@@ -165,6 +192,7 @@ void	normalize_map(t_setup *setup)
 	int		len;
 	char	*new_line;
 
+	validate_config_complete(setup);
 	i = 0;
 	j = 0;
 	find_max_width(setup);
@@ -177,14 +205,12 @@ void	normalize_map(t_setup *setup)
 			if (!new_line)
 				error_exit(ERR_MALLOC);
 			j = 0;
-			while (j < len)
-			{
-				new_line[j] = setup->map[i][j];
-				j++;
-			}
 			while (j < setup->map_width)
 			{
-				new_line[j] = ' ';
+				if (j < len)
+					new_line[j] = setup->map[i][j];
+				else
+					new_line[j] = ' ';
 				j++;
 			}
 			new_line[j] = '\0';
@@ -271,5 +297,5 @@ void parser(char *filename)
 	}
 	close(fd);
 	print_setup(&setup);
-	validate_map(&setup);
+	// validate_map(&setup);
 }

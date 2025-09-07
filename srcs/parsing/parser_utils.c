@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:47:50 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/06 15:51:21 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/07 22:44:43 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int validate_file(char *filename)
 	
     len = ft_strlen(filename);
     if ((len < 5) || ft_strncmp(&filename[len - 4], ".cub", 4) != 0)
-		return (0);
+		error_exit(ERR_EXTENSION);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		error_exit(ERR_FILE);
@@ -49,10 +49,13 @@ char	*trim_line(char *line)
 {
 	int			i;
 	int			j;
-	static char	trimmed[4096];
+	char		*trimmed;
 
 	i = 0;
 	j = 0;
+	trimmed = malloc(ft_strlen(line) + 1);
+	if (!trimmed)
+		return (NULL);
     while (line[i])
 	{
 		if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
