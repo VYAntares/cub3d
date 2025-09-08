@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:14:37 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 23:07:27 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/08 23:17:56 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int		main(int ac, char **av);
 
 // Error handling
 void	error_exit(char *msg);
+void	clean_up(t_setup *setup);
 
 // File validation
 int		validate_file(char *filename);
