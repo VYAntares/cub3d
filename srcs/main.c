@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:29:05 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 00:45:32 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/08 23:09:35 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 int		main(int ac, char **av)
 {
+	t_setup	setup;
+	
 	if (ac != 2)
 		error_exit(ERR_ARGS);
 
-	if (parser(av[1]) != 0)
+	if (parser(&setup, av[1]) != 0)
+	{
+		clean_up(&setup);
 		error_exit(ERR_PARSE);
+	}
 
 	printf("Parsing successful!\n");
 	return (0);

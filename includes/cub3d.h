@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:14:37 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 00:49:26 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/08 23:07:27 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	error_exit(char *msg);
 int		validate_file(char *filename);
 
 // Parsing functions
-int		parser(char *filename);
+int		parser(t_setup *setup, char *filename);
 int		parse_config(char *line, t_setup *setup);
 int		parse_textures(char *trimmed, char **texture_path);
 int		parse_color(char *trimmed, t_color *color);

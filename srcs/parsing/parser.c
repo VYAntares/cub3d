@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:28:38 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 00:49:45 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/08 23:07:17 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,21 +220,20 @@ int write_map(t_setup *setup, char *line, int fd)
 	return (normalize_map(setup));
 }
 
-int parser(char *filename)
+int parser(t_setup *setup, char *filename)
 {
 	int		fd;
 	char	*line;
 	int		result;
-	t_setup	setup;
 	
 	fd = validate_file(filename);
 	if (fd == -1)
 		return (1);
 	line = get_next_line(fd);
-	init_setup(&setup);
+	init_setup(setup);
 	while (line)
 	{
-		result = parse_config(line, &setup);
+		result = parse_config(line, setup);
 		if (result == 1)
 		{
 			free(line);
@@ -243,7 +242,7 @@ int parser(char *filename)
 		}
 		if (result == MAP_FOUND)
 		{
-			if (write_map(&setup, line, fd) == 1)
+			if (write_map(setup, line, fd) == 1)
 			{
 				close(fd);
 				return (1);
@@ -254,7 +253,7 @@ int parser(char *filename)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	print_setup(&setup);
+	print_setup(setup);
 	// validate_map(&setup);
 	return (0);
 }
