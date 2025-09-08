@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:28:38 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 23:07:17 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/08 23:58:33 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,7 @@ int	parse_config(char *line, t_setup *setup)
 
 	trimmed = trim_line(line);
 	if (ft_strlen(trimmed) == 0)
-	{
-		free(trimmed);
-		return (0);
-	}
+		return (free(trimmed), 0);
 	if (ft_strncmp(trimmed, "NO", 2) == 0)
 		result = parse_textures(trimmed, &setup->textures.north_texture);
 	else if (ft_strncmp(trimmed, "WE", 2) == 0)
@@ -226,11 +223,11 @@ int parser(t_setup *setup, char *filename)
 	char	*line;
 	int		result;
 	
+	init_setup(setup);
 	fd = validate_file(filename);
 	if (fd == -1)
 		return (1);
 	line = get_next_line(fd);
-	init_setup(setup);
 	while (line)
 	{
 		result = parse_config(line, setup);
@@ -238,6 +235,7 @@ int parser(t_setup *setup, char *filename)
 		{
 			free(line);
 			close(fd);
+			clean_up_gnl(fd);
 			return (1);
 		}
 		if (result == MAP_FOUND)
@@ -245,6 +243,7 @@ int parser(t_setup *setup, char *filename)
 			if (write_map(setup, line, fd) == 1)
 			{
 				close(fd);
+				clean_up_gnl(fd);
 				return (1);
 			}
 			break ;
@@ -254,6 +253,7 @@ int parser(t_setup *setup, char *filename)
 	}
 	close(fd);
 	print_setup(setup);
+	clean_up_gnl(fd);
 	// validate_map(&setup);
 	return (0);
 }

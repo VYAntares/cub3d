@@ -3,20 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:24:05 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 23:17:33 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/08 23:59:23 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+void	clean_up_gnl(int fd)
+{
+	char *line;
+
+	line = get_next_line(fd);
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+}
+
 void	clean_textures(t_textures *textures)
 {
 	if (!textures)
 		return ;
-		if (textures->north_texture)
+	if (textures->north_texture)
 	{
 		free(textures->north_texture);
 		textures->north_texture = NULL;

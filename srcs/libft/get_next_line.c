@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumattei <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 19:10:27 by lumattei          #+#    #+#             */
-/*   Updated: 2025/08/27 13:48:20 by lumattei         ###   ########.fr       */
+/*   Updated: 2025/09/08 23:31:48 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static char	*get_line(char *s)
@@ -67,7 +68,7 @@ char	*get_next_line(int fd)
 	static char	*s;
 	char		*line;
 	char		*buf;
-	size_t		nbyte;
+	ssize_t		nbyte;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);

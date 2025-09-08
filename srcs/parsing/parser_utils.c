@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:47:50 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 00:48:07 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/08 23:46:48 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ int validate_file(char *filename)
 	
     len = ft_strlen(filename);
     if ((len < 5) || ft_strncmp(&filename[len - 4], ".cub", 4) != 0)
-		return (1);
+		return (-1);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		return (1);
+		return (-1);
 	return (fd);
 }
 
