@@ -37,6 +37,7 @@ SRCS		= main.c \
 			  graphics/init_player.c \
 			  graphics/event.c \
 			  graphics/movement.c \
+			  graphics/ray.c \
 			  utils/errors.c \
 
 # Objects

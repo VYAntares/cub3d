@@ -1,6 +1,9 @@
 #include "../../includes/cub3d.h"
 #include <math.h>
 
+#include "../../includes/cub3d.h"
+#include <math.h>
+
 int is_wall(t_game *game, int x, int y)
 {
     if (x < 0 || y < 0 || x >= game->setup->map_width || y >= game->setup->map_height)
@@ -27,7 +30,7 @@ void move_forward(t_game *game)
     if (!is_wall(game, (int)game->player.x, (int)new_y))
         game->player.y = new_y;
     
-    printf("Player moved to: (%.2f, %.2f)\n", game->player.x, game->player.y);
+    render_frame(game);  // Redessiner après mouvement
 }
 
 void move_backward(t_game *game)
@@ -45,7 +48,7 @@ void move_backward(t_game *game)
     if (!is_wall(game, (int)game->player.x, (int)new_y))
         game->player.y = new_y;
     
-    printf("Player moved to: (%.2f, %.2f)\n", game->player.x, game->player.y);
+    render_frame(game);  // Redessiner après mouvement
 }
 
 void move_left(t_game *game)
@@ -53,25 +56,6 @@ void move_left(t_game *game)
     double new_x, new_y;
     
     // Se déplacer perpendiculairement à la direction (strafe gauche)
-    new_x = game->player.x - game->player.dir_y * MOVE_SPEED;
-    new_y = game->player.y + game->player.dir_x * MOVE_SPEED;
-    
-    // Vérifier collision X
-    if (!is_wall(game, (int)new_x, (int)game->player.y))
-        game->player.x = new_x;
-    
-    // Vérifier collision Y
-    if (!is_wall(game, (int)game->player.x, (int)new_y))
-        game->player.y = new_y;
-    
-    printf("Player strafed left to: (%.2f, %.2f)\n", game->player.x, game->player.y);
-}
-
-void move_right(t_game *game)
-{
-    double new_x, new_y;
-    
-    // Se déplacer perpendiculairement à la direction (strafe droite)
     new_x = game->player.x + game->player.dir_y * MOVE_SPEED;
     new_y = game->player.y - game->player.dir_x * MOVE_SPEED;
     
@@ -83,7 +67,26 @@ void move_right(t_game *game)
     if (!is_wall(game, (int)game->player.x, (int)new_y))
         game->player.y = new_y;
     
-    printf("Player strafed right to: (%.2f, %.2f)\n", game->player.x, game->player.y);
+    render_frame(game);  // Redessiner après mouvement
+}
+
+void move_right(t_game *game)
+{
+    double new_x, new_y;
+    
+    // Se déplacer perpendiculairement à la direction (strafe droite)
+    new_x = game->player.x - game->player.dir_y * MOVE_SPEED;
+    new_y = game->player.y + game->player.dir_x * MOVE_SPEED;
+    
+    // Vérifier collision X
+    if (!is_wall(game, (int)new_x, (int)game->player.y))
+        game->player.x = new_x;
+    
+    // Vérifier collision Y
+    if (!is_wall(game, (int)game->player.x, (int)new_y))
+        game->player.y = new_y;
+    
+    render_frame(game);  // Redessiner après mouvement
 }
 
 void rotate_left(t_game *game)
@@ -100,8 +103,7 @@ void rotate_left(t_game *game)
     game->player.plane_x = game->player.plane_x * cos(-ROT_SPEED) - game->player.plane_y * sin(-ROT_SPEED);
     game->player.plane_y = old_plane_x * sin(-ROT_SPEED) + game->player.plane_y * cos(-ROT_SPEED);
     
-    printf("Player rotated left. New direction: (%.2f, %.2f)\n", 
-           game->player.dir_x, game->player.dir_y);
+    render_frame(game);  // Redessiner après rotation
 }
 
 void rotate_right(t_game *game)
@@ -118,6 +120,5 @@ void rotate_right(t_game *game)
     game->player.plane_x = game->player.plane_x * cos(ROT_SPEED) - game->player.plane_y * sin(ROT_SPEED);
     game->player.plane_y = old_plane_x * sin(ROT_SPEED) + game->player.plane_y * cos(ROT_SPEED);
     
-    printf("Player rotated right. New direction: (%.2f, %.2f)\n", 
-           game->player.dir_x, game->player.dir_y);
+    render_frame(game);  // Redessiner après rotation
 }

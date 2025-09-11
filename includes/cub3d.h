@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:14:37 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/11 19:30:57 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 19:42:52 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,11 @@ void    move_left(t_game *game);
 void    move_right(t_game *game);
 void    rotate_left(t_game *game);
 void    rotate_right(t_game *game);
+
+// Raycasting functions
+void    render_frame(t_game *game);
+void    my_mlx_pixel_put(t_game *game, int x, int y, int color);
+int     game_loop(t_game *game);
+
 
 #endif

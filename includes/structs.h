@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:53:45 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/11 19:25:08 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 20:07:52 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # define TEX_HEIGHT 64
 
 // Constantes de mouvement
-# define MOVE_SPEED 0.05
-# define ROT_SPEED 0.03
+# define MOVE_SPEED 0.20
+# define ROT_SPEED 0.12
 
 // Indices des textures
 # define NORTH_TEX  0
@@ -101,5 +101,25 @@ typedef struct s_game
     t_player    player;         // Joueur
     t_texture   textures[4];    // 4 textures (N,S,E,W)
 } t_game;
+
+typedef struct s_ray
+{
+    double  ray_dir_x;      // Direction X du rayon
+    double  ray_dir_y;      // Direction Y du rayon
+    int     map_x;          // Case X actuelle
+    int     map_y;          // Case Y actuelle
+    double  delta_dist_x;   // Distance entre intersections X
+    double  delta_dist_y;   // Distance entre intersections Y
+    double  side_dist_x;    // Distance jusqu'à prochaine intersection X
+    double  side_dist_y;    // Distance jusqu'à prochaine intersection Y
+    int     step_x;         // Direction du step (-1 ou 1)
+    int     step_y;         // Direction du step (-1 ou 1)
+    int     hit;            // Mur touché ?
+    int     side;           // Côté du mur touché (0=NS, 1=EW)
+    double  perp_wall_dist; // Distance perpendiculaire au mur
+    int     line_height;    // Hauteur de la ligne à dessiner
+    int     draw_start;     // Pixel de début
+    int     draw_end;       // Pixel de fin
+} t_ray;
 
 #endif

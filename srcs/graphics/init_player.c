@@ -49,7 +49,7 @@ int init_game(t_game *game, t_setup *setup)
     // Charger les textures
     if (load_all_textures(game) != 0)
         return (1);
-    
+
     // Initialiser le joueur
     init_player(&game->player, setup);
     

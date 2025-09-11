@@ -31,7 +31,6 @@ int load_texture(t_game *game, t_texture *texture, char *path)
 										 &texture->width, &texture->height);
 	if (!texture->img)
 		return (1);
-	
 	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel,
 									  &texture->line_length, &texture->endian);
 	if (!texture->addr)
@@ -40,12 +39,12 @@ int load_texture(t_game *game, t_texture *texture, char *path)
 	return (0);
 }
 
+
 int load_all_textures(t_game *game)
 {
 	if (load_texture(game, &game->textures[NORTH_TEX], 
 					 game->setup->textures.north_texture) != 0)
 		return (1);
-	
 	if (load_texture(game, &game->textures[SOUTH_TEX], 
 					 game->setup->textures.south_texture) != 0)
 		return (1);
