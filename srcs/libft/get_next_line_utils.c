@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumattei <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 19:11:31 by lumattei          #+#    #+#             */
-/*   Updated: 2025/08/27 13:39:41 by lumattei         ###   ########.fr       */
+/*   Updated: 2025/09/11 18:56:04 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 size_t	ft_strlen_gnl(const char *s)
@@ -63,7 +64,5 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 		ret[lens1 + i] = s2[i];
 		i++;
 	}
-	ret[lens1 + lens2] = '\0';
-	free(s1);
-	return (ret);
+	return (ret[lens1 + lens2] = '\0', free(s1), ret);
 }

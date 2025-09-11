@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:28:38 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/11 15:59:46 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 18:57:12 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,5 +272,5 @@ int	parser(t_setup *setup, char *filename)
 		line = get_next_line(fd);
 	}
 	print_setup(setup);
-	return (close(fd), clean_up_gnl(fd), 0);
+	return (close(fd), clean_up_gnl(fd), validate_map(setup));
 }

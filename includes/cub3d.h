@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:14:37 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 23:59:46 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 17:34:27 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@
 int		main(int ac, char **av);
 
 // Error handling
-void	error_exit(char *msg);
+int		error_exit(char *msg);
 void	clean_up(t_setup *setup);
 void    clean_up_gnl(int fd);
 
@@ -94,5 +94,6 @@ char	**ft_realloc_array(char **old_array, int old_count, size_t new_size);
 
 // Validation functions
 int		validate_config_complete(t_setup *setup);
+int		validate_map(t_setup *setup);
 
 #endif

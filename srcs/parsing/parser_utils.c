@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:47:50 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/11 11:37:32 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 18:56:15 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	init_setup(t_setup *setup)
 	setup->map = NULL;
 	setup->map_height = -1;
 	setup->map_width = -1;
+	setup->spawn_x = -1;
+	setup->spawn_y = -1;
 }
 
 int	substr_map_line_wo_bn(t_setup *setup, char *line, int map_count)

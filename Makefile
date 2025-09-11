@@ -31,6 +31,7 @@ MLX_FLAGS	= -framework OpenGL -framework AppKit  # MacOS
 # Source files
 SRCS		= main.c \
 			  parsing/parser.c \
+			  parsing/validate_map.c \
 			  parsing/parser_utils.c \
 			  utils/errors.c \
 
