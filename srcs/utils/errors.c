@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:24:05 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 23:59:23 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 11:39:43 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	clean_up_gnl(int fd)
 {
-	char *line;
+	char	*line;
 
 	line = get_next_line(fd);
 	while (line)
@@ -73,14 +73,12 @@ void	reset_colors(t_setup *setup)
 {
 	if (!setup)
 		return ;
-	
 	setup->floor.r = -1;
 	setup->floor.g = -1;
 	setup->floor.b = -1;
 	setup->ceiling.r = -1;
 	setup->ceiling.g = -1;
 	setup->ceiling.b = -1;
-
 }
 
 void	clean_up(t_setup *setup)
@@ -95,5 +93,5 @@ void	clean_up(t_setup *setup)
 void	error_exit(char *msg)
 {
 	ft_putstr_fd(msg, 2);
-	exit(EXIT_FAILURE);	
+	exit(EXIT_FAILURE);
 }

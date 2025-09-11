@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:47:50 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/08 23:46:48 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 11:37:32 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ int	validate_config_complete(t_setup *setup)
 	return (0);
 }
 
-int validate_file(char *filename)
+int	validate_file(char *filename)
 {
-    int len;
+	int	len;
 	int	fd;
-	
-    len = ft_strlen(filename);
-    if ((len < 5) || ft_strncmp(&filename[len - 4], ".cub", 4) != 0)
+
+	len = ft_strlen(filename);
+	if ((len < 5) || ft_strncmp(&filename[len - 4], ".cub", 4) != 0)
 		return (-1);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -80,11 +80,11 @@ int validate_file(char *filename)
 void	init_setup(t_setup *setup)
 {
 	if (!setup)
-		return ;	
+		return ;
 	setup->textures.north_texture = NULL;
 	setup->textures.south_texture = NULL;
 	setup->textures.west_texture = NULL;
-	setup->textures.east_texture = NULL;	
+	setup->textures.east_texture = NULL;
 	setup->floor.r = -1;
 	setup->floor.g = -1;
 	setup->floor.b = -1;
@@ -99,7 +99,7 @@ void	init_setup(t_setup *setup)
 int	substr_map_line_wo_bn(t_setup *setup, char *line, int map_count)
 {
 	int	len;
-	
+
 	len = ft_strlen(line);
 	if (len > 0 && line[len - 1] == '\n')
 		setup->map[map_count] = ft_substr(line, 0, len - 1);
@@ -121,17 +121,17 @@ char	*trim_line(char *line)
 	trimmed = malloc(ft_strlen(line) + 1);
 	if (!trimmed)
 		return (NULL);
-    while (line[i])
+	while (line[i])
 	{
 		if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n')
 			i++;
 		else
-        {
+		{
 			trimmed[j] = line[i];
 			j++;
 			i++;
 		}
 	}
-    trimmed[j] = '\0';
+	trimmed[j] = '\0';
 	return (trimmed);
 }
