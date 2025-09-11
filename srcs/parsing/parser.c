@@ -6,64 +6,64 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:28:38 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/11 18:57:12 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 19:10:31 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-// static void	print_setup(t_setup *setup)
-// {
-// 	int	i;
-// 	if (!setup)
-// 	{
-// 		printf("Setup is NULL\n");
-// 		return ;
-// 	}
-// 	printf("=== SETUP CONFIGURATION ===\n\n");
-// 	// Print textures
-// 	printf("TEXTURES:\n");
-// 	printf("  North: %s\n", setup->textures.north_texture ?
-// 	 setup->textures.north_texture : "NULL");
-// 	printf("  South: %s\n", setup->textures.south_texture ?
-// 	 setup->textures.south_texture : "NULL");
-// 	printf("  West:  %s\n", setup->textures.west_texture ?
-// 	 setup->textures.west_texture : "NULL");
-// 	printf("  East:  %s\n", setup->textures.east_texture ?
-// 	 setup->textures.east_texture : "NULL");
-// 	// Print colors
-// 	printf("\nCOLORS:\n");
-// 	printf("  Floor:   ");
-// 	if (setup->floor.r == -1)
-// 		printf("NOT SET\n");
-// 	else
-// 		printf("RGB(%d, %d, %d)\n", setup->floor.r,
-// 	 setup->floor.g, setup->floor.b);
-// 	printf("  Ceiling: ");
-// 	if (setup->ceiling.r == -1)
-// 		printf("NOT SET\n");
-// 	else
-// 		printf("RGB(%d, %d, %d)\n", setup->ceiling.r,
-// 	 setup->ceiling.g, setup->ceiling.b);
-// 	// Print map info
-// 	printf("\nMAP INFO:\n");
-// 	printf("  Width:  %d\n", setup->map_width);
-// 	printf("  Height: %d\n", setup->map_height);
-// 	printf("  Map:    %s\n", setup->map ? "LOADED" : "NULL");
-// 	// Print actual map if it exists
-// 	if (setup->map)
-// 	{
-// 		printf("\nMAP CONTENT:\n");
-// 		i = 0;
-// 		while (i < setup->map_height && setup->map[i])
-// 		{
-// 			printf("  [%2d] [strlen : %2zu] :%s\n", i,
-// 	 ft_strlen(setup->map[i]), setup->map[i]);
-// 			i++;
-// 		}
-// 	}
-// 	printf("\n=== END SETUP ===\n");
-// }
+static void	print_setup(t_setup *setup)
+{
+	int	i;
+	if (!setup)
+	{
+		printf("Setup is NULL\n");
+		return ;
+	}
+	printf("=== SETUP CONFIGURATION ===\n\n");
+	// Print textures
+	printf("TEXTURES:\n");
+	printf("  North: %s\n", setup->textures.north_texture ?
+	 setup->textures.north_texture : "NULL");
+	printf("  South: %s\n", setup->textures.south_texture ?
+	 setup->textures.south_texture : "NULL");
+	printf("  West:  %s\n", setup->textures.west_texture ?
+	 setup->textures.west_texture : "NULL");
+	printf("  East:  %s\n", setup->textures.east_texture ?
+	 setup->textures.east_texture : "NULL");
+	// Print colors
+	printf("\nCOLORS:\n");
+	printf("  Floor:   ");
+	if (setup->floor.r == -1)
+		printf("NOT SET\n");
+	else
+		printf("RGB(%d, %d, %d)\n", setup->floor.r,
+	 setup->floor.g, setup->floor.b);
+	printf("  Ceiling: ");
+	if (setup->ceiling.r == -1)
+		printf("NOT SET\n");
+	else
+		printf("RGB(%d, %d, %d)\n", setup->ceiling.r,
+	 setup->ceiling.g, setup->ceiling.b);
+	// Print map info
+	printf("\nMAP INFO:\n");
+	printf("  Width:  %d\n", setup->map_width);
+	printf("  Height: %d\n", setup->map_height);
+	printf("  Map:    %s\n", setup->map ? "LOADED" : "NULL");
+	// Print actual map if it exists
+	if (setup->map)
+	{
+		printf("\nMAP CONTENT:\n");
+		i = 0;
+		while (i < setup->map_height && setup->map[i])
+		{
+			printf("  [%2d] [strlen : %2zu] :%s\n", i,
+	 ft_strlen(setup->map[i]), setup->map[i]);
+			i++;
+		}
+	}
+	printf("\n=== END SETUP ===\n");
+}
 
 int	parse_textures(char *trimmed, char **texture_path)
 {

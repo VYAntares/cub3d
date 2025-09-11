@@ -33,6 +33,10 @@ SRCS		= main.c \
 			  parsing/parser.c \
 			  parsing/validate_map.c \
 			  parsing/parser_utils.c \
+			  graphics/init_mlx.c \
+			  graphics/init_player.c \
+			  graphics/event.c \
+			  graphics/movement.c \
 			  utils/errors.c \
 
 # Objects

@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:24:05 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/11 17:00:08 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 19:23:35 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,3 +96,4 @@ int	error_exit(char *msg)
 	exit(EXIT_FAILURE);
 	return (1);
 }
+

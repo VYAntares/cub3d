@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:14:37 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/11 17:34:27 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/11 19:30:57 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@
 # define ON_DESTROY 17
 
 # define ERR_FILECONFIG 1001
-# define MAP_FOUND 1002
 # define ERROR_COLOR 1003
 # define ERROR_TEXTURE 1004
 # define ERROR_PARSE 1005
@@ -95,5 +94,25 @@ char	**ft_realloc_array(char **old_array, int old_count, size_t new_size);
 // Validation functions
 int		validate_config_complete(t_setup *setup);
 int		validate_map(t_setup *setup);
+
+// MLX init
+
+int     init_mlx(t_game *game);
+int     load_all_textures(t_game *game);
+void    init_player(t_player *player, t_setup *setup);
+int     init_game(t_game *game, t_setup *setup);
+void    cleanup_mlx(t_game *game);
+
+// MLX mouvement/event
+
+int     close_window(t_game *game);
+int     key_press(int keycode, t_game *game);
+void    setup_events(t_game *game);
+void    move_forward(t_game *game);
+void    move_backward(t_game *game);
+void    move_left(t_game *game);
+void    move_right(t_game *game);
+void    rotate_left(t_game *game);
+void    rotate_right(t_game *game);
 
 #endif
