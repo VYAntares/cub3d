@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:53:45 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/11 20:07:52 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/14 22:08:28 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # define TEX_HEIGHT 64
 
 // Constantes de mouvement
-# define MOVE_SPEED 0.20
-# define ROT_SPEED 0.12
+# define MOVE_SPEED 0.12
+# define ROT_SPEED 0.04
 
 // Indices des textures
 # define NORTH_TEX  0
@@ -38,7 +38,7 @@ typedef struct s_color
     int r;
     int g;
     int b;
-} t_color;
+}   t_color;
 
 // Structure pour les chemins des textures (parsing)
 typedef struct s_textures
@@ -47,7 +47,7 @@ typedef struct s_textures
     char *south_texture;
     char *west_texture;
     char *east_texture;
-} t_textures;
+}   t_textures;
 
 typedef struct s_setup
 {
@@ -60,7 +60,7 @@ typedef struct s_setup
     int         spawn_x;        // Position spawn X
     int         spawn_y;        // Position spawn Y
     char        spawn_dir;      // Direction spawn (N,S,E,W)
-} t_setup;
+}   t_setup;
 
 // Structure pour les textures MLX (runtime)
 typedef struct s_texture
@@ -72,7 +72,7 @@ typedef struct s_texture
     int     bits_per_pixel;     // Bits par pixel
     int     line_length;        // Longueur ligne
     int     endian;             // Endianness
-} t_texture;
+}   t_texture;
 
 // Structure du joueur
 typedef struct s_player
@@ -83,7 +83,7 @@ typedef struct s_player
     double  dir_y;              // Direction Y du regard
     double  plane_x;            // Plan caméra X (perpendiculaire à dir)
     double  plane_y;            // Plan caméra Y (perpendiculaire à dir)
-} t_player;
+}   t_player;
 
 // Structure principale du jeu
 typedef struct s_game
@@ -100,7 +100,7 @@ typedef struct s_game
     t_setup     *setup;         // Configuration parsée
     t_player    player;         // Joueur
     t_texture   textures[4];    // 4 textures (N,S,E,W)
-} t_game;
+}   t_game;
 
 typedef struct s_ray
 {
@@ -120,6 +120,6 @@ typedef struct s_ray
     int     line_height;    // Hauteur de la ligne à dessiner
     int     draw_start;     // Pixel de début
     int     draw_end;       // Pixel de fin
-} t_ray;
+}   t_ray;
 
 #endif
