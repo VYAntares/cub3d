@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:29:05 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/14 21:34:50 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:31:01 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	game_loop(t_game *game)
 	return (0);
 }
 
-int init_game(t_game *game, t_setup *setup)
+int	init_game(t_game *game, t_setup *setup)
 {
 	game->setup = setup;
 	if (init_mlx(game) != 0)

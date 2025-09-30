@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 21:06:54 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/30 13:50:57 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:31:40 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	cleanup_mlx(t_game *game)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->mlx)
 	{
-		mlx_destroy_display(game->mlx);  // Sur Linux uniquement
+		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}
 }

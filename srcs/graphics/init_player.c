@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 21:06:49 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/23 18:40:50 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:32:11 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	assign_position_north(t_player *player)
 {
 	player->dir_x = 0.0;
 	player->dir_y = -1.0;
-	player->plane_x = 0.66;  // FOV ~66 degrés
+	player->plane_x = 0.66;
 	player->plane_y = 0.0;
 }
 

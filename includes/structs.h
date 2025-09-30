@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 16:53:45 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/30 13:57:05 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 15:56:57 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,15 @@ typedef struct s_texture
     int     line_length;        // Longueur ligne
     int     endian;             // Endianness
 }   t_texture;
+
+typedef struct s_tex_render
+{
+    t_texture   *texture;    // Pointeur vers la texture à utiliser
+    double      wall_x;      // Position horizontale sur le mur (0.0 à 1.0)
+    int         tex_x;       // Colonne de la texture à utiliser
+    double      step;        // Pas d'avancement dans la texture
+    double      tex_pos;     // Position courante dans la texture
+}   t_tex_render;
 
 // Structure du joueur
 typedef struct s_player
