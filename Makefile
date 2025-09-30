@@ -14,7 +14,7 @@ LIBFT_DIR	= srcs/libft/
 
 # MLX Directory and flags based on OS
 ifeq ($(UNAME_S), Linux)
-    MLX_DIR		= minilibx_linux/
+    MLX_DIR		= minilibx-linux/
     MLX_FLAGS	= -lXext -lX11 -lm
 else ifeq ($(UNAME_S), Darwin)
     MLX_DIR		= minilibx_mac/
@@ -30,6 +30,8 @@ SRCS		= main.c \
 			  parsing/parser.c \
 			  parsing/validate_map.c \
 			  parsing/parser_utils.c \
+			  parsing/parser_utils2.c \
+			  parsing/parse_config.c \
 			  graphics/init_mlx.c \
 			  graphics/init_player.c \
 			  graphics/event.c \

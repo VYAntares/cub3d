@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 13:47:50 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/11 19:08:21 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 16:53:29 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,6 @@ char	**ft_realloc_array(char **old_array, int old_count, size_t new_size)
 	}
 	free(old_array);
 	return (new_array);
-}
-
-void	find_max_width(t_setup *setup)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	while (i < setup->map_height)
-	{
-		len = ft_strlen(setup->map[i]);
-		if (len > setup->map_width)
-			setup->map_width = len;
-		i++;
-	}
 }
 
 int	validate_config_complete(t_setup *setup)
@@ -75,27 +59,6 @@ int	validate_file(char *filename)
 	if (fd == -1)
 		return (-1);
 	return (fd);
-}
-
-void	init_setup(t_setup *setup)
-{
-	if (!setup)
-		return ;
-	setup->textures.north_texture = NULL;
-	setup->textures.south_texture = NULL;
-	setup->textures.west_texture = NULL;
-	setup->textures.east_texture = NULL;
-	setup->floor.r = -1;
-	setup->floor.g = -1;
-	setup->floor.b = -1;
-	setup->ceiling.r = -1;
-	setup->ceiling.g = -1;
-	setup->ceiling.b = -1;
-	setup->map = NULL;
-	setup->map_height = -1;
-	setup->map_width = -1;
-	setup->spawn_x = -1;
-	setup->spawn_y = -1;
 }
 
 int	substr_map_line_wo_bn(t_setup *setup, char *line, int map_count)
