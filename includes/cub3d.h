@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/28 15:14:37 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/30 17:01:55 by eahmeti          ###   ########.fr       */
+/*   Created: 2025/09/30 17:05:38 by eahmeti           #+#    #+#             */
+/*   Updated: 2025/09/30 17:18:35 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@
 # define ERROR_TEXTURE 1004
 # define ERROR_PARSE 1005
 
-
 // Error messages
 # define ERR_ARGS "Error\nUsage: ./cub3D <map.cub>\n"
 # define ERR_FILE "Error\nCannot open file\n"
@@ -68,7 +67,7 @@ int		main(int ac, char **av);
 // Error handling
 int		error_exit(char *msg);
 void	clean_up(t_setup *setup);
-void    clean_up_gnl(int fd);
+void	clean_up_gnl(int fd);
 
 // File validation
 int		validate_file(char *filename);
@@ -82,6 +81,8 @@ int		parse_color(char *trimmed, t_color *color);
 // Utility functions
 char	*trim_line(char *line);
 void	init_setup(t_setup *setup);
+int		is_all_digits(char *str);
+void	free_rgb(char **rgb);
 
 // Map processing functions
 int		write_map(t_setup *setup, char *line, int fd);
@@ -97,29 +98,38 @@ int		validate_config_complete(t_setup *setup);
 int		validate_map(t_setup *setup);
 
 // MLX init
+int		init_mlx(t_game *game);
+int		load_all_textures(t_game *game);
+void	init_player(t_player *player, t_setup *setup);
+int		init_game(t_game *game, t_setup *setup);
+void	cleanup_mlx(t_game *game);
 
-int     init_mlx(t_game *game);
-int     load_all_textures(t_game *game);
-void    init_player(t_player *player, t_setup *setup);
-int     init_game(t_game *game, t_setup *setup);
-void    cleanup_mlx(t_game *game);
+// MLX movement/event
+int		close_window(t_game *game);
+int		key_press(int keycode, t_game *game);
+void	setup_events(t_game *game);
+void	move_forward(t_game *game);
+void	move_backward(t_game *game);
+void	move_left(t_game *game);
+void	move_right(t_game *game);
 
-// MLX mouvement/event
-
-int     close_window(t_game *game);
-int     key_press(int keycode, t_game *game);
-void    setup_events(t_game *game);
-void    move_forward(t_game *game);
-void    move_backward(t_game *game);
-void    move_left(t_game *game);
-void    move_right(t_game *game);
-void    rotate_left(t_game *game);
-void    rotate_right(t_game *game);
+// Rotation functions
+void	rotate_left(t_game *game);
+void	rotate_right(t_game *game);
 
 // Raycasting functions
-void    render_frame(t_game *game);
-void    my_mlx_pixel_put(t_game *game, int x, int y, int color);
-int     game_loop(t_game *game);
+void	render_frame(t_game *game);
+void	my_mlx_pixel_put(t_game *game, int x, int y, int color);
+int		game_loop(t_game *game);
+void	cast_ray(t_game *game, int x);
+void	init_ray(t_game *game, t_ray *ray, int x);
+void	calculate_step_and_side_dist(t_game *game, t_ray *ray);
+void	perform_dda(t_game *game, t_ray *ray);
+void	calculate_distance(t_game *game, t_ray *ray);
+void	draw_floor_ceiling(t_game *game, int x, int draw_start, int draw_end);
 
+// Texture functions
+int		get_texture_color(t_texture *texture, int tex_x, int tex_y);
+void	draw_textured_line(t_game *game, t_ray *ray, int x);
 
 #endif

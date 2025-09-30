@@ -6,11 +6,11 @@
 /*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 16:44:34 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/30 16:44:57 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 17:15:25 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 /*
 ** Écrit un pixel de couleur dans l'image buffer en mémoire.

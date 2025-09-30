@@ -6,11 +6,11 @@
 /*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:40:45 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/30 16:48:50 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 17:15:22 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 /*
 ** Initialise un rayon pour le pixel x de l'écran.
