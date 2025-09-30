@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 17:05:38 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/30 17:18:35 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 17:27:58 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include <fcntl.h>
-# include "mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include "libft.h"
 # include "structs.h"
 

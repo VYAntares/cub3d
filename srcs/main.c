@@ -6,11 +6,11 @@
 /*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 15:29:05 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/30 16:31:01 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 17:19:41 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 void	clean_up_gnl(int fd)
 {
