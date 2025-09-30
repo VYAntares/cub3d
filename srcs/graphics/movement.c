@@ -6,7 +6,7 @@
 /*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/14 21:06:42 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/14 21:43:52 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/23 20:29:32 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	rotate_left(t_game *game)
 
 	old_dir_x = game->player.dir_x;
 	old_plane_x = game->player.plane_x;
-	game->player.dir_x = game->player.dir_x * cos(-ROT_SPEED)
+	game->player.dir_x = game->player.dir_x * cos(-ROT_SPEED) 
 		- game->player.dir_y * sin(-ROT_SPEED);
 	game->player.dir_y = old_dir_x * sin(-ROT_SPEED)
 		+ game->player.dir_y * cos(-ROT_SPEED);
