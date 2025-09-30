@@ -1,32 +1,29 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/01 00:00:00 by student           #+#    #+#              #
-#    Updated: 2025/09/14 14:18:15 by eahmeti          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME		= cub3D
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -g
 RM			= rm -rf
+
+# OS Detection
+UNAME_S		:= $(shell uname -s)
 
 # Directories
 SRCS_DIR	= srcs/
 OBJS_DIR	= objs/
 INC_DIR		= includes/
 LIBFT_DIR	= srcs/libft/
-MLX_DIR		= minilibx/
+
+# MLX Directory and flags based on OS
+ifeq ($(UNAME_S), Linux)
+    MLX_DIR		= minilibx_linux/
+    MLX_FLAGS	= -lXext -lX11 -lm
+else ifeq ($(UNAME_S), Darwin)
+    MLX_DIR		= minilibx_mac/
+    MLX_FLAGS	= -framework OpenGL -framework AppKit
+endif
 
 # Libraries
 LIBFT		= $(LIBFT_DIR)libft.a
 LIBMLX		= $(MLX_DIR)libmlx.a
-MLX_FLAGS	= -framework OpenGL -framework AppKit  # MacOS
-# MLX_FLAGS	= -lXext -lX11 -lm  # Linux
 
 # Source files
 SRCS		= main.c \
@@ -47,11 +44,13 @@ OBJS		= $(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 GREEN		= \033[0;32m
 YELLOW		= \033[0;33m
 RED			= \033[0;31m
+BLUE		= \033[0;34m
 NC			= \033[0m
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS)
+	@echo "$(BLUE)▸ Detected OS: $(UNAME_S)$(NC)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LIBMLX) $(MLX_FLAGS) -o $(NAME)
 	@echo "$(GREEN)✓ $(NAME) compiled successfully$(NC)"
 

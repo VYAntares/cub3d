@@ -3,15 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eahmeti <eahmeti@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: eahmeti <eahmeti@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:40:45 by eahmeti           #+#    #+#             */
-/*   Updated: 2025/09/25 02:30:26 by eahmeti          ###   ########.fr       */
+/*   Updated: 2025/09/30 13:58:46 by eahmeti          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+/*
+** Écrit un pixel de couleur dans l'image buffer en mémoire.
+** 
+** MLX ne dessine pas directement à l'écran pixel par pixel, mais utilise un
+** buffer d'image en mémoire. Cette fonction modifie directement ce buffer.
+**
+** Fonctionnement :
+** 1. Vérifie que les coordonnées (x,y) sont dans les limites de l'écran
+** 2. Calcule l'adresse mémoire exacte du pixel :
+**    - y * line_length : saute y lignes complètes
+**    - x * (bits_per_pixel / 8) : avance de x pixels dans la ligne
+**    - line_length inclut le padding mémoire (alignement)
+** 3. Écrit la couleur (format 0xRRGGBB) à cette adresse
+**
+** Exemple : pixel (100, 50) sur écran 1280x720, 32 bits/pixel
+** - Adresse = base + (50 * line_length) + (100 * 4 bytes)
+** - Le cast (unsigned int *) permet d'écrire 4 bytes d'un coup
+**
+** Note : l'image n'apparaît à l'écran qu'après mlx_put_image_to_window().
+** Tous les pixels sont d'abord écrits en mémoire, puis affichés en une fois.
+*/
 void	my_mlx_pixel_put(t_game *game, int x, int y, int color)
 {
 	char	*dst;
@@ -23,6 +44,27 @@ void	my_mlx_pixel_put(t_game *game, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
+/*
+** Récupère la couleur d'un pixel spécifique dans une texture.
+** 
+** Les textures sont stockées en mémoire comme des tableaux de pixels.
+** Cette fonction lit directement la couleur à la position (tex_x, tex_y).
+**
+** Fonctionnement :
+** 1. Vérifie que les coordonnées sont valides (dans les limites de la texture)
+**    - Si hors limites : retourne noir (0x000000) pour éviter un crash
+** 2. Calcule l'adresse mémoire exacte du pixel dans la texture :
+**    - tex_y * line_length : saute tex_y lignes complètes
+**    - tex_x * (bits_per_pixel / 8) : avance de tex_x pixels dans la ligne
+** 3. Lit et retourne la couleur au format 0xRRGGBB (unsigned int)
+**
+** Exemple : lire pixel (32, 16) d'une texture 64x64 :
+** - Adresse = base_texture + (16 * line_length) + (32 * 4 bytes)
+** - Retourne la couleur stockée à cette adresse (ex: 0xFF8040)
+**
+** Cette fonction est appelée pour chaque pixel du mur affiché à l'écran,
+** permettant de "plaquer" la texture sur la surface du mur.
+*/
 int	get_texture_color(t_texture *texture, int tex_x, int tex_y)
 {
 	char	*pixel;
@@ -181,6 +223,63 @@ void	perform_dda(t_game *game, t_ray *ray)
 	}
 }
 
+/*
+** Calcule la distance au mur et détermine les limites de rendu à l'écran.
+** 
+** Cette fonction transforme une distance 3D en coordonnées 2D de pixels,
+** en appliquant les règles de la perspective.
+**
+** ÉTAPE 1 : Calcul de la distance perpendiculaire (perp_wall_dist)
+** ────────────────────────────────────────────────────────────────────
+** Problème : si on utilise la distance réelle du rayon, on obtient un effet
+** fish-eye (distorsion). Il faut la distance perpendiculaire au plan caméra.
+**
+** Pour un mur vertical (side == 0) :
+**   - ray->map_x - player.x : distance horizontale joueur → case touchée
+**   - (1 - step_x) / 2 : correction pour pointer vers le bon bord de case
+**     * step_x = 1 (droite) → 0 (bord gauche de la case)
+**     * step_x = -1 (gauche) → 1 (bord droit de la case)
+**   - / ray_dir_x : convertit distance horizontale en distance de rayon
+**
+** Exemple : joueur en (5.3, 10.0), mur en x=8, ray_dir_x=0.8, step_x=1
+**   perp_wall_dist = (8 - 5.3 + 0) / 0.8 = 2.7 / 0.8 = 3.375 unités
+**
+** Pour un mur horizontal (side == 1) : même logique avec coordonnées Y.
+**
+** ÉTAPE 2 : Hauteur du mur à l'écran (line_height)
+** ────────────────────────────────────────────────────────────────────
+** Principe de perspective : plus proche = plus grand, plus loin = plus petit
+**   line_height = hauteur_écran / distance
+**
+** Exemples (écran 720px) :
+**   - dist = 0.5 → 720/0.5 = 1440px (énorme, dépasse l'écran)
+**   - dist = 1.0 → 720/1.0 = 720px (remplit l'écran)
+**   - dist = 2.0 → 720/2.0 = 360px (moitié de l'écran)
+**   - dist = 10.0 → 720/10.0 = 72px (petite barre)
+**
+** ÉTAPE 3 : Pixel de début du mur (draw_start)
+** ────────────────────────────────────────────────────────────────────
+** Centre le mur verticalement sur l'écran :
+**   draw_start = centre_écran - demi_hauteur_mur
+**              = height/2 - line_height/2
+**
+** Exemple : mur 400px de haut, écran 720px
+**   draw_start = 360 - 200 = 160 (commence 160px sous le haut)
+**
+** Le if clamp à 0 si le mur dépasse le haut (murs très proches).
+**
+** ÉTAPE 4 : Pixel de fin du mur (draw_end)
+** ────────────────────────────────────────────────────────────────────
+** Même logique pour le bas :
+**   draw_end = centre_écran + demi_hauteur_mur
+**            = height/2 + line_height/2
+**
+** Le if clamp à height-1 si le mur dépasse le bas de l'écran.
+**
+** Résultat : draw_start et draw_end définissent où dessiner le mur,
+** le reste étant rempli par le plafond (0 à draw_start-1) et le sol
+** (draw_end+1 à height-1).
+*/
 void	calculate_distance(t_game *game, t_ray *ray)
 {
 	if (ray->side == 0)
@@ -256,12 +355,14 @@ void	draw_textured_line(t_game *game, t_ray *ray, int x)
 	
 	// x coordinate sur la texture
 	tex_x = (int)(wall_x * (double)texture->width);
-	if ((ray->side == 0 && ray->ray_dir_x > 0) || (ray->side == 1 && ray->ray_dir_y < 0))
+	if ((ray->side == 0 && ray->ray_dir_x > 0)
+		|| (ray->side == 1 && ray->ray_dir_y < 0))
 		tex_x = texture->width - tex_x - 1;
 	
 	// Calculer le step et la position texture initiale
 	step = 1.0 * texture->height / ray->line_height;
-	tex_pos = (ray->draw_start - game->height / 2 + ray->line_height / 2) * step;
+	tex_pos = (ray->draw_start - game->height / 2 + ray->line_height / 2)
+		* step;
 	
 	// Dessiner la ligne texturée
 	for (y = ray->draw_start; y <= ray->draw_end; y++)
@@ -278,6 +379,28 @@ void	draw_textured_line(t_game *game, t_ray *ray, int x)
 	}
 }
 
+/*
+** Dessine le plafond et le sol pour une colonne verticale de pixels.
+** 
+** Cette fonction remplit les espaces vides au-dessus et en-dessous du mur
+** avec les couleurs définies dans la configuration (.cub file).
+**
+** Conversion des couleurs RGB en format hexadécimal 0xRRGGBB :
+** - Décalage binaire << pour positionner chaque composante :
+**   * R << 16 : place Rouge dans les bits 16-23    (0xRR0000)
+**   * G << 8  : place Vert dans les bits 8-15      (0x00GG00)
+**   * B       : reste dans les bits 0-7            (0x0000BB)
+** - Opérateur OR | pour combiner les trois :
+**   Exemple : R=255, G=128, B=64 → 0xFF0000 | 0x008000 | 0x000040 = 0xFF8040
+**
+** Structure de rendu vertical pour la colonne x :
+** - y=0 à draw_start-1        : plafond (tout ce qui est au-dessus du mur)
+** - draw_start à draw_end     : mur (géré par draw_textured_line)
+** - draw_end+1 à game->height : sol (tout ce qui est en-dessous du mur)
+**
+** Note : draw_start et draw_end sont calculés dans calculate_distance() selon
+** la distance perpendiculaire au mur (plus proche = mur plus haut à l'écran).
+*/
 void	draw_floor_ceiling(t_game *game, int x, int draw_start, int draw_end)
 {
 	int	y;
@@ -314,6 +437,18 @@ void	cast_ray(t_game *game, int x)
 	draw_textured_line(game, &ray, x);
 }
 
+/*
+** Génère une image complète de la vue du joueur.
+** 
+** Pour chaque colonne verticale de pixels de l'écran (x de 0 à width-1),
+** lance un rayon via cast_ray() qui :
+** 1. Calcule la direction du rayon (init_ray)
+** 2. Trouve le mur le plus proche (DDA algorithm)
+** 3. Dessine le plafond, le mur texturé et le sol
+**
+** Une fois tous les rayons tracés, affiche l'image buffer à l'écran avec
+** mlx_put_image_to_window(). Cette fonction est appelée à chaque frame.
+*/
 void	render_frame(t_game *game)
 {
 	int	x;
