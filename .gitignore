@@ -1,0 +1,21 @@
+# Build artifacts
+*.o
+*.a
+*.so
+*.d
+obj/
+
+# MiniLibX is 42's library and is not redistributed here.
+# See the README for how to clone it.
+minilibx-linux/
+minilibx_opengl/
+minilibx*/
+
+# Editor / OS
+.DS_Store
+*.swp
+*~
+.vscode/
+
+# Binary
+cub3D
